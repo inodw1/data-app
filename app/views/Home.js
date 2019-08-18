@@ -124,7 +124,7 @@ class Home extends React.Component {
                             keyExtractor = { (item, index) => index.toString() }
                             renderItem={({item}) => {
                                 return (
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => {this.props.navigation.navigate('Profile');}}>
                                         <Card itemId={item.id} itemTitle={item.title} />
                                     </TouchableOpacity>
                                 );
