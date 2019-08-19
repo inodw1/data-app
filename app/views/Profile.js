@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import {
-    View,
     Dimensions,
+    StyleSheet,
     Text,
+    View,
+    Image,
+    TouchableOpacity,
 } from 'react-native';
 const window = Dimensions.get('window');
 
@@ -30,17 +33,49 @@ class Profile extends Component {
         super(props);
 
         this.state = {
-
+            data: this.props.navigation.state.params.data,
         };
     }
 
     render() {
         return (
-            <View>
-                <Text>Profile Screen</Text>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.name}>{this.state.data.title}</Text>
+                </View>
+                <View style={styles.body}>
+                    <Text style={styles.description}>{this.state.data.body}</Text>
+                </View>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    header: {
+        backgroundColor: '#00BFFF',
+    },
+    name: {
+        color: '#ffffff',
+        fontWeight: '600',
+        flexShrink: 1,
+        padding: (window.width * 0.04),
+        fontSize: (window.width) * 0.06,
+    },
+    body: {
+        marginTop: 10,
+        padding: 20,
+        flexDirection:'row',
+    },
+    description: {
+        color: '#696969',
+        fontSize: (window.width) * 0.045,
+        textAlign: 'left',
+        flexWrap: 'wrap',
+    },
+});
 
 export default Profile;
