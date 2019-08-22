@@ -6,7 +6,9 @@ import {
     View,
     Image,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
+import { getDataFromServer } from '../services/server';
 const window = Dimensions.get('window');
 
 class Profile extends Component {
@@ -35,6 +37,37 @@ class Profile extends Component {
         this.state = {
             data: this.props.navigation.state.params.data,
         };
+    }
+
+    componentWillMount() {
+        this.getDataFromAPI();
+    }
+
+    getDataFromAPI = () => {
+        getDataFromServer('photos?album=1').then((responseJson) => {
+            try {
+                if (responseJson === 404) {
+                    this.setState({ refreshing: false });
+                    Alert.alert(
+                        'Data-App',
+                        'Unable to fetch data from the server. Please check your internet connection.', [
+                            {
+                                text: 'OK',
+                            },
+                        ], {
+                            cancelable: false,
+                        }
+                    );
+                }
+                else {
+                    this.setState({
+                        PostsData: responseJson,
+                    });
+                }
+            } catch (error) {
+                console.log(`${error}`);
+            }
+        });
     }
 
     render() {
@@ -68,7 +101,7 @@ const styles = StyleSheet.create({
     body: {
         marginTop: 10,
         padding: 20,
-        flexDirection:'row',
+        flexDirection: 'row',
     },
     description: {
         color: '#696969',
